@@ -7,6 +7,7 @@ use App\Models\User;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\EditAction;
@@ -49,7 +50,8 @@ class UserResource extends Resource
                 ->label('Nhóm quyền')
                 ->relationship('roles', 'name') // lấy từ quan hệ roles() trong model User
                 ->multiple() // nếu muốn chọn nhiều role
-                ->preload(), // load sẵn roles
+                ->preload() // load sẵn roles
+                ->visible(fn () => auth()->user()->can('assign role'))
         ]);
     }
 
