@@ -8,11 +8,12 @@ use App\Models\Hotel;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Tables\Actions\DeleteAction;
 use App\Filament\Resources\HotelResource\Pages;
 
@@ -62,9 +63,9 @@ class HotelResource extends Resource
                 ->label('Địa chỉ')
                 ->nullable(),
 
-            TextInput::make('description')
+            RichEditor::make('description')
                 ->label('Mô tả')
-                ->nullable()
+                ->disableToolbarButtons(['attachFiles'])
                 ->columnSpanFull(),
 
             FileUpload::make('logo')
