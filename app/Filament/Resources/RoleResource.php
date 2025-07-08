@@ -8,19 +8,8 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Pages\Actions\DeleteAction;
-use Illuminate\Database\Eloquent\Builder;
-use Spatie\Permission\Commands\CreateRole;
-use Filament\Forms\Components\CheckboxList;
-use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\RoleResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\RoleResource\Pages\EditRole;
-use App\Filament\Resources\RoleResource\Pages\ListRoles;
-use App\Filament\Resources\RoleResource\RelationManagers;
 
 class RoleResource extends Resource
 {

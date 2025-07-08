@@ -46,12 +46,19 @@ class UserResource extends Resource
                 ->required()
                 ->unique(ignoreRecord: true),
 
+            TextInput::make('password')
+                ->password()
+                ->required(fn (string $context) => $context === 'create') // chỉ bắt buộc khi tạo
+                ->dehydrated(fn ($state) => filled($state)) // chỉ lưu nếu có nhập
+                ->dehydrateStateUsing(fn ($state) => bcrypt($state)) // mã hóa
+                ->label('Mật khẩu'),
+
             Select::make('roles')
                 ->label('Nhóm quyền')
                 ->relationship('roles', 'name') // lấy từ quan hệ roles() trong model User
                 ->multiple() // nếu muốn chọn nhiều role
                 ->preload() // load sẵn roles
-                ->visible(fn () => auth()->user()->can('assign role'))
+                ->visible(fn () => auth()->user()->can('update_role')) // chỉ hiển thị nếu có quyền assign roles,
         ]);
     }
 
