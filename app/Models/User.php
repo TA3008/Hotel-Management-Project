@@ -4,24 +4,25 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
+use Illuminate\Support\Collection;
+use App\Models\Traits\BelongsToTenant;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasTenants;
 use Stancl\Tenancy\Database\Models\Tenant;
-use Illuminate\Database\Eloquent\Collection;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class User extends Authenticatable implements HasTenants
+class User extends Authenticatable implements FilamentUser, HasTenants
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
     use HasRoles;
-    use BelongsToTenant;
+    //use BelongsToTenant;
 
     /**
      * The attributes that are mass assignable.
@@ -58,18 +59,23 @@ class User extends Authenticatable implements HasTenants
         ];
     }
 
-    public function tenant(): BelongsTo
+    public function teams(): BelongsToMany
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsToMany(Team::class);
     }
 
     public function getTenants(Panel $panel): Collection
     {
-        return collect([$this->tenant])->filter();
+        return $this->teams;
     }
 
-    public function canAccessTenant($tenant): bool
+    public function canAccessTenant(Model $tenant): bool
     {
-        return $this->tenant_id === $tenant->id;
+        return $this->teams()->whereKey($tenant)->exists();
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
     }
 }

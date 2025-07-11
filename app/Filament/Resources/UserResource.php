@@ -35,6 +35,20 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Người dùng';
 
+    protected static ?string $tenantOwnershipRelationshipName = 'teams';
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Nếu là super admin thì bỏ global scope tenant
+        if (auth()->user()?->hasRole('super_admin')) {
+            return $query->withoutGlobalScopes([\App\Models\Traits\TenantScope::class]);
+        }
+
+        return $query;
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([

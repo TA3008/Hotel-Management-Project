@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role as SpatieRole;
-use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends SpatieRole
 {
-    protected $fillable = ['name', 'guard_name', 'tenant_id'];
-    use BelongsToTenant;
+    protected $fillable = ['name', 'guard_name'];
 
     // Quan hệ tới permissions
     public function permissions(): BelongsToMany

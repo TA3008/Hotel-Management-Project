@@ -27,6 +27,8 @@ class HotelResource extends Resource
     protected static ?string $navigationLabel = 'Khách sạn';
     protected static ?int $navigationSort = 2;
 
+    protected static ?string $tenantOwnershipRelationshipName = 'team';
+
     public static function getBreadcrumb(): string
     {
         return 'Khách sạn';
@@ -41,15 +43,10 @@ class HotelResource extends Resource
     {
         return 'Khách sạn';
     }
-    
-    // public static function getEloquentQuery(): Builder
-    // {
-    //     return parent::getEloquentQuery()
-    //         ->where('tenant_id', tenant('id') ?? auth()->user()?->tenant_id);
-    // }
 
     public static function form(Form $form): Form
     {
+        //dd(tenant());
         return $form->schema([
             TextInput::make('name')
                 ->required()

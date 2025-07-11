@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Branch;
 use Illuminate\Database\Eloquent\Model;
-use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Hotel extends Model
 {
     use HasFactory;
-    use BelongsToTenant;
 
     protected $fillable = [
         'name',
@@ -18,7 +17,6 @@ class Hotel extends Model
         'address',
         'description',
         'logo',
-        'tenant_id',
     ];
     
     public function branches()
@@ -26,9 +24,23 @@ class Hotel extends Model
         return $this->hasMany(Branch::class);
     }
 
-    // Quan hệ sau này (nếu có):
-    // public function rooms()
-    // {
-    //     return $this->hasMany(Room::class);
-    // }
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class);
+    }
+
+    public function getTenants(Panel $panel): Collection
+    {
+        return $this->teams;
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return $this->teams()->whereKey($tenant)->exists();
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
 }

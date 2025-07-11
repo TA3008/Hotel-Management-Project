@@ -4,11 +4,9 @@ namespace App\Models;
 
 use App\Enums\RoomStatusEnum;
 use Illuminate\Database\Eloquent\Model;
-use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class Room extends Model
 {
-    use BelongsToTenant;
     
     protected $fillable = [
         'branch_id',
@@ -16,7 +14,6 @@ class Room extends Model
         'room_number',
         'status',
         'note',
-        'tenant_id',
     ];
 
     protected $casts = [
