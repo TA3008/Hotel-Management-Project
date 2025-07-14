@@ -24,6 +24,8 @@ class RoleResource extends Resource
     protected static ?string $navigationGroup = 'Quản trị hệ thống';
     protected static ?int $navigationSort = 2;
 
+    protected static ?string $tenantOwnershipRelationshipName = 'hotel';
+
     public static function form(Form $form): Form
     {
         $groupedPermissions = Permission::all()

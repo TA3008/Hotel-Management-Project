@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\User;
+use App\Models\Hotel;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -17,6 +19,8 @@ return new class extends Migration
             $table->foreignId('room_type_id')->constrained()->cascadeOnDelete();
             $table->string('room_number'); // Ví dụ: 101, A1
             $table->enum('status', ['available', 'booked', 'occupied', 'cleaning'])->default('available');
+            $table->foreignIdFor(Hotel::class);
+            $table->foreignIdFor(User::class);
             $table->text('note')->nullable();
             $table->timestamps();
         });

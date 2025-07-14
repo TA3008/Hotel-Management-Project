@@ -22,6 +22,8 @@ class AmenityResource extends Resource
     protected static ?string $navigationLabel = 'Tiện ích';
     protected static ?int $navigationSort = 4;
 
+    protected static ?string $tenantOwnershipRelationshipName = 'hotel';
+
     public static function getBreadcrumb(): string
     {
         return 'Tiện ích';

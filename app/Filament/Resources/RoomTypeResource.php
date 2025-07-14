@@ -24,6 +24,8 @@ class RoomTypeResource extends Resource
     protected static ?string $navigationLabel = 'Loại phòng';
     protected static ?int $navigationSort = 4;
 
+    protected static ?string $tenantOwnershipRelationshipName = 'hotel';
+
     public static function form(Form $form): Form
     {
         return $form->schema([

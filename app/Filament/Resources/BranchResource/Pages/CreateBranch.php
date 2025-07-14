@@ -19,5 +19,4 @@ class CreateBranch extends CreateRecord
     {
         return 'Tạo mới chi nhánh: ';
     }
-    
 }

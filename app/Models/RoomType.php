@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Hotel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RoomType extends Model
 {
@@ -18,4 +20,11 @@ class RoomType extends Model
     {
         return $this->hasMany(Room::class);
     }
+
+    /** @return BelongsTo<\App\Models\Hotel, self> */
+    public function hotel(): BelongsTo
+    {
+        return $this->belongsTo(Hotel::class);
+    }
+
 }

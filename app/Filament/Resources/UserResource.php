@@ -9,12 +9,14 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
+use Forms\Components\CheckboxList;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Stancl\Tenancy\Database\TenantScope;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,7 +37,7 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Người dùng';
 
-    protected static ?string $tenantOwnershipRelationshipName = 'teams';
+    protected static ?string $tenantOwnershipRelationshipName = 'hotels';
 
     public static function getEloquentQuery(): Builder
     {

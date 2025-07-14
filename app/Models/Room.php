@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Hotel;
 use App\Enums\RoomStatusEnum;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Room extends Model
 {
@@ -29,4 +31,11 @@ class Room extends Model
     {
         return $this->belongsTo(RoomType::class);
     }
+
+    /** @return BelongsTo<\App\Models\Hotel, self> */
+    public function hotel(): BelongsTo
+    {
+        return $this->belongsTo(Hotel::class);
+    }
+
 }

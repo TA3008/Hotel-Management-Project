@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
+use App\Models\Hotel;
 use Illuminate\Support\Collection;
 use App\Models\Traits\BelongsToTenant;
 use Spatie\Permission\Traits\HasRoles;
@@ -22,7 +23,6 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
     use HasRoles;
-    //use BelongsToTenant;
 
     /**
      * The attributes that are mass assignable.
@@ -33,7 +33,6 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         'name',
         'email',
         'password',
-        'tenant_id',
     ];
 
     /**
@@ -59,19 +58,19 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         ];
     }
 
-    public function teams(): BelongsToMany
+    public function hotels(): BelongsToMany
     {
-        return $this->belongsToMany(Team::class);
+        return $this->belongsToMany(Hotel::class);
     }
 
     public function getTenants(Panel $panel): Collection
     {
-        return $this->teams;
+        return $this->hotels;
     }
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->teams()->whereKey($tenant)->exists();
+        return $this->hotels()->whereKey($tenant)->exists();
     }
 
     public function canAccessPanel(Panel $panel): bool
