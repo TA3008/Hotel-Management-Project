@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use tenant;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Hotel;
@@ -15,6 +16,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Tables\Actions\DeleteAction;
+use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\HotelResource\Pages;
 
 class HotelResource extends Resource
@@ -24,7 +26,7 @@ class HotelResource extends Resource
     protected static ?string $navigationGroup = 'Quản lý khách sạn';
     protected static ?string $navigationLabel = 'Khách sạn';
     protected static ?int $navigationSort = 2;
-
+    
     public static function getBreadcrumb(): string
     {
         return 'Khách sạn';
@@ -40,8 +42,15 @@ class HotelResource extends Resource
         return 'Khách sạn';
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+        ->where('id', tenant()->id);
+    }
+
     public static function form(Form $form): Form
     {
+        //dd(tenant());
         return $form->schema([
             TextInput::make('name')
                 ->required()

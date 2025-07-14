@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\User;
+use App\Models\Hotel;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -17,6 +19,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price', 12, 2);
             $table->unsignedInteger('bed_count');
+            $table->foreignIdFor(Hotel::class);
+            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
     }

@@ -24,6 +24,8 @@ class BranchResource extends Resource
     protected static ?string $navigationLabel = 'Chi nhánh';
     protected static ?int $navigationSort = 3;
 
+    protected static ?string $tenantOwnershipRelationshipName = 'hotel';
+
     public static function getBreadcrumb(): string
     {
         return 'Chi nhánh';

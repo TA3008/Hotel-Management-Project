@@ -2,22 +2,28 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
-use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
-use Filament\Http\Middleware\AuthenticateSession;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
-use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
+use App\Models\Hotel;
 use Filament\Widgets;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
+use Filament\PanelProvider;
+use Filament\Pages\Auth\Register;
+use Filament\Support\Colors\Color;
+use Stancl\Tenancy\Contracts\Tenant;
+use Filament\Http\Middleware\Authenticate;
+use App\Filament\Pages\Tenancy\RegisterTeam;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Filament\Http\Middleware\AuthenticateSession;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use TomatoPHP\FilamentSimpleTheme\FilamentSimpleThemePlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -28,6 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->registration(Register::class) 
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -54,9 +61,15 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),
+                FilamentSimpleThemePlugin::make(),
             ])
+            ->tenantMiddleware([
+                SyncShieldTenant::class,
+            ], isPersistent: true)
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->tenant(Hotel::class)
+            ->tenantRegistration(RegisterTeam::class);     
     }
 }

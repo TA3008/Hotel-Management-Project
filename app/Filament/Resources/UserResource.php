@@ -9,12 +9,14 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
+use Forms\Components\CheckboxList;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Stancl\Tenancy\Database\TenantScope;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,6 +37,20 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Người dùng';
 
+    protected static ?string $tenantOwnershipRelationshipName = 'hotels';
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Nếu là super admin thì bỏ global scope tenant
+        if (auth()->user()?->hasRole('super_admin')) {
+            return $query->withoutGlobalScopes([\App\Models\Traits\TenantScope::class]);
+        }
+
+        return $query;
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -46,12 +62,19 @@ class UserResource extends Resource
                 ->required()
                 ->unique(ignoreRecord: true),
 
+            TextInput::make('password')
+                ->password()
+                ->required(fn (string $context) => $context === 'create') // chỉ bắt buộc khi tạo
+                ->dehydrated(fn ($state) => filled($state)) // chỉ lưu nếu có nhập
+                ->dehydrateStateUsing(fn ($state) => bcrypt($state)) // mã hóa
+                ->label('Mật khẩu'),
+
             Select::make('roles')
                 ->label('Nhóm quyền')
                 ->relationship('roles', 'name') // lấy từ quan hệ roles() trong model User
                 ->multiple() // nếu muốn chọn nhiều role
                 ->preload() // load sẵn roles
-                ->visible(fn () => auth()->user()->can('assign role'))
+                ->visible(fn () => auth()->user()->can('update_role')) // chỉ hiển thị nếu có quyền assign roles,
         ]);
     }
 

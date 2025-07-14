@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Models\Role as SpatieRole;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role as SpatieRole;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Hotel;
 
 class Role extends SpatieRole
 {
@@ -21,4 +23,11 @@ class Role extends SpatieRole
             'permission_id'
         );
     }
+
+    /** @return BelongsTo<\App\Models\Hotel, self> */
+    public function hotel(): BelongsTo
+    {
+        return $this->belongsTo(Hotel::class);
+    }
+
 }

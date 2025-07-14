@@ -8,19 +8,12 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\EditAction;
+use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Pages\Actions\DeleteAction;
-use Illuminate\Database\Eloquent\Builder;
-use Spatie\Permission\Commands\CreateRole;
+use Spatie\Permission\Models\Permission;
 use Filament\Forms\Components\CheckboxList;
-use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\RoleResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\RoleResource\Pages\EditRole;
-use App\Filament\Resources\RoleResource\Pages\ListRoles;
-use App\Filament\Resources\RoleResource\RelationManagers;
 
 class RoleResource extends Resource
 {
@@ -31,19 +24,33 @@ class RoleResource extends Resource
     protected static ?string $navigationGroup = 'Quản trị hệ thống';
     protected static ?int $navigationSort = 2;
 
+    protected static ?string $tenantOwnershipRelationshipName = 'hotel';
+
     public static function form(Form $form): Form
     {
-        return $form->schema([
-            Forms\Components\TextInput::make('name')
-                ->required()
-                ->maxLength(255),
+        $groupedPermissions = Permission::all()
+            ->groupBy(function ($permission) {
+                // Nhóm theo tiền tố (ví dụ: "room", "booking", "user")
+                return ucfirst(explode('_', $permission->name)[count(explode('_', $permission->name)) - 1]);
+            });
 
-            Forms\Components\CheckboxList::make('permissions')
-                ->label('Quyền')
-                ->relationship('permissions', 'name')
-                ->columns(2)
-                ->bulkToggleable(),
-        ]);
+        $permissionFields = [];
+
+        foreach ($groupedPermissions as $group => $permissions) {
+            $permissionFields[] = Fieldset::make($group)
+                ->schema([
+                    CheckboxList::make('permissions')
+                        ->label(false)
+                        ->relationship('permissions', 'name')
+                        ->options($permissions->pluck('name', 'id')->toArray())
+                        ->columns(4)
+                        ->bulkToggleable(true),
+                ]);
+        }
+
+        return $form->schema(array_merge([
+            TextInput::make('name')->label('Tên vai trò')->required(),
+        ], $permissionFields));
     }
 
     public static function table(Table $table): Table

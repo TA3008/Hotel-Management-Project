@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\User;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
 
 class CreateSuperAdmin extends Command
@@ -25,7 +26,6 @@ class CreateSuperAdmin extends Command
                 'status' => true,
             ]
         );
-
         $this->info('✅ User superadmin@gmail.com đã sẵn sàng.');
 
         // Tạo role nếu chưa có
@@ -37,9 +37,15 @@ class CreateSuperAdmin extends Command
         $role->syncPermissions($permissions);
         $this->info('✅ Gán toàn bộ quyền cho role super_admin.');
 
-        // Gán role cho user
-        $user->assignRole($role);
-        $this->info('✅ Gán role super_admin cho user.');
+        // 👉 Không dùng assignRole vì nó không gán hotel_id
+        // 👉 Insert trực tiếp vào bảng trung gian
+        DB::table('model_has_roles')->insertOrIgnore([
+            'role_id'    => $role->id,
+            'model_type' => User::class,
+            'model_id'   => $user->id,
+            'hotel_id'   => 1, // gán hotel_id cố định
+        ]);
+        $this->info('✅ Gán role super_admin cho user (có hotel_id = 1).');
 
         // Xóa cache quyền
         app()[PermissionRegistrar::class]->forgetCachedPermissions();

@@ -2,8 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Role;
+use App\Models\Room;
+use App\Models\User;
+use App\Models\Branch;
+use App\Models\Amenity;
+use App\Models\RoomType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Hotel extends Model
 {
@@ -16,16 +24,47 @@ class Hotel extends Model
         'address',
         'description',
         'logo',
+        'user_id',
+        'status',
     ];
-    
-    public function branches()
+
+    public function users() : BelongsToMany
     {
-        return $this->hasMany(Branch::class);
+        return $this->belongsToMany(User::class);
     }
 
-    // Quan hệ sau này (nếu có):
-    // public function rooms()
-    // {
-    //     return $this->hasMany(Room::class);
-    // }
+    /** @return HasMany<\App\Models\Role, self> */
+    public function roles(): HasMany
+    {
+        return $this->hasMany(\App\Models\Role::class);
+    }
+
+
+    /** @return HasMany<\App\Models\Amenity, self> */
+    public function amenities(): HasMany
+    {
+        return $this->hasMany(\App\Models\Amenity::class);
+    }
+
+
+    /** @return HasMany<\App\Models\Branch, self> */
+    public function branches(): HasMany
+    {
+        return $this->hasMany(\App\Models\Branch::class);
+    }
+
+
+    /** @return HasMany<\App\Models\Room, self> */
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(\App\Models\Room::class);
+    }
+
+
+    /** @return HasMany<\App\Models\RoomType, self> */
+    public function roomTypes(): HasMany
+    {
+        return $this->hasMany(\App\Models\RoomType::class);
+    }
+
 }
