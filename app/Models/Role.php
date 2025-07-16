@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role as SpatieRole;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Models\Hotel;
+use App\Models\Team;
 
 class Role extends SpatieRole
 {
@@ -24,10 +24,10 @@ class Role extends SpatieRole
         );
     }
 
-    /** @return BelongsTo<\App\Models\Hotel, self> */
-    public function hotel(): BelongsTo
+    /** @return BelongsTo<\App\Models\Team, self> */
+    public function team(): BelongsTo
     {
-        return $this->belongsTo(Hotel::class);
+        return $this->belongsTo(Team::class);
     }
 
 }

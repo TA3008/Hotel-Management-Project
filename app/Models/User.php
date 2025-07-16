@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
-use App\Models\Hotel;
+use App\Models\Team;
 use Illuminate\Support\Collection;
 use App\Models\Traits\BelongsToTenant;
 use Spatie\Permission\Traits\HasRoles;
@@ -58,19 +58,19 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         ];
     }
 
-    public function hotels(): BelongsToMany
+    public function teams(): BelongsToMany
     {
-        return $this->belongsToMany(Hotel::class);
+        return $this->belongsToMany(Team::class);
     }
 
     public function getTenants(Panel $panel): Collection
     {
-        return $this->hotels;
+        return $this->teams;
     }
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->hotels()->whereKey($tenant)->exists();
+        return $this->teams()->whereKey($tenant)->exists();
     }
 
     public function canAccessPanel(Panel $panel): bool
@@ -81,6 +81,6 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     /*Lấy quyền của user hiện tại */
     public function getPermissionsTeam()
     {
-        return hotel(); 
+        return team(); 
     }
 }

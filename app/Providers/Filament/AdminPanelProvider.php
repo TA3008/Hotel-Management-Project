@@ -4,16 +4,16 @@ namespace App\Providers\Filament;
 
 use Filament\Pages;
 use Filament\Panel;
-use App\Models\Hotel;
+use App\Models\Team;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Pages\Auth\Register;
 use Filament\Support\Colors\Color;
 use Stancl\Tenancy\Contracts\Tenant;
 use Filament\Http\Middleware\Authenticate;
-use App\Filament\Pages\Tenancy\RegisterHotel;
+use App\Filament\Pages\Tenancy\RegisterTeam;
 use Illuminate\Session\Middleware\StartSession;
-use App\Filament\Pages\Tenancy\EditHotelProfile;
+use App\Filament\Pages\Tenancy\EditTeamProfile;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -61,7 +61,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                //FilamentShieldPlugin::make(),
+                FilamentShieldPlugin::make(),
                 FilamentSimpleThemePlugin::make(),
             ])
             ->tenantMiddleware([
@@ -70,8 +70,8 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->tenant(Hotel::class)
-            ->tenantRegistration(RegisterHotel::class)
-            ->tenantProfile(EditHotelProfile::class);     
+            ->tenant(Team::class)
+            ->tenantRegistration(RegisterTeam::class)
+            ->tenantProfile(EditTeamProfile::class);     
     }
 }

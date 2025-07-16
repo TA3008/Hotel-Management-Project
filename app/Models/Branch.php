@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Hotel;
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,29 +12,29 @@ class Branch extends Model
     use HasFactory;
 
     protected $fillable = [
-        'hotel_id',
+        'team_id',
         'name',
         'address',
         'phone',
         'email',
         'description',
-        'hotel_id',
+        'team_id',
     ];
 
-    /** @return BelongsTo<\App\Models\Hotel, self> */
-    public function hotel(): BelongsTo
+    /** @return BelongsTo<\App\Models\Team, self> */
+    public function team(): BelongsTo
     {
-        return $this->belongsTo(Hotel::class);
+        return $this->belongsTo(Team::class);
     }
 
     public function getTenants(Panel $panel): Collection
     {
-        return $this->hotels;
+        return $this->teams;
     }
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->hotels()->whereKey($tenant)->exists();
+        return $this->teams()->whereKey($tenant)->exists();
     }
 
     public function canAccessPanel(Panel $panel): bool

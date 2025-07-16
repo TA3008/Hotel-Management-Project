@@ -37,7 +37,7 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Người dùng';
 
-    protected static ?string $tenantOwnershipRelationshipName = 'hotels';
+    protected static ?string $tenantOwnershipRelationshipName = 'teams';
 
     public static function getEloquentQuery(): Builder
     {
