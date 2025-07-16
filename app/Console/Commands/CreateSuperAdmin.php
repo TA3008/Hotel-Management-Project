@@ -43,9 +43,9 @@ class CreateSuperAdmin extends Command
             'role_id'    => $role->id,
             'model_type' => User::class,
             'model_id'   => $user->id,
-            'hotel_id'   => 1, // gán hotel_id cố định
+            'hotel_id'   => 0, // gán hotel_id cố định
         ]);
-        $this->info('✅ Gán role super_admin cho user (có hotel_id = 1).');
+        $this->info('✅ Gán role super_admin cho user (có hotel_id = 0).');
 
         // Xóa cache quyền
         app()[PermissionRegistrar::class]->forgetCachedPermissions();

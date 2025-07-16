@@ -4,38 +4,29 @@ namespace App\Providers\Filament;
 
 use Filament\Pages;
 use Filament\Panel;
-use App\Models\Hotel;
 use Filament\Widgets;
 use Filament\PanelProvider;
-use Filament\Pages\Auth\Register;
 use Filament\Support\Colors\Color;
-use Stancl\Tenancy\Contracts\Tenant;
+use Illuminate\Support\Facades\Log;
 use Filament\Http\Middleware\Authenticate;
-use App\Filament\Pages\Tenancy\RegisterHotel;
 use Illuminate\Session\Middleware\StartSession;
-use App\Filament\Pages\Tenancy\EditHotelProfile;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;
-use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use TomatoPHP\FilamentSimpleTheme\FilamentSimpleThemePlugin;
 
-class AdminPanelProvider extends PanelProvider
+class SystemPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id('system')
+            ->path('system')
             ->login()
-            ->registration(Register::class) 
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -60,18 +51,8 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->plugins([
-                //FilamentShieldPlugin::make(),
-                FilamentSimpleThemePlugin::make(),
-            ])
-            ->tenantMiddleware([
-                SyncShieldTenant::class,
-            ], isPersistent: true)
             ->authMiddleware([
                 Authenticate::class,
-            ])
-            ->tenant(Hotel::class)
-            ->tenantRegistration(RegisterHotel::class)
-            ->tenantProfile(EditHotelProfile::class);     
+            ]);
     }
 }

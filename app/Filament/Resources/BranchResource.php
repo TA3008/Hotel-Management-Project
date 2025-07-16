@@ -22,7 +22,7 @@ class BranchResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
     protected static ?string $navigationGroup = 'Quản lý khách sạn';
     protected static ?string $navigationLabel = 'Chi nhánh';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $tenantOwnershipRelationshipName = 'hotel';
 

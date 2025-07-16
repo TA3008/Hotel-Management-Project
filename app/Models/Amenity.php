@@ -15,6 +15,7 @@ class Amenity extends Model
         'name',
         'icon',
         'description',
+        'hotel_id',
     ];
 
     /** @return BelongsTo<\App\Models\Hotel, self> */

@@ -7,13 +7,13 @@ use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
-use Filament\Pages\Tenancy\RegisterTenant;
+use Filament\Pages\Tenancy\EditTenantProfile;
 
-class RegisterTeam extends RegisterTenant
+class EditHotelProfile extends EditTenantProfile
 {
     public static function getLabel(): string
     {
-        return 'Thêm mới khách sạn';
+        return 'Hotel Profile';
     }
 
     public function form(Form $form): Form
@@ -50,15 +50,4 @@ class RegisterTeam extends RegisterTenant
                 ->directory('hotels/logos'),
         ]);
     }
-
-    protected function handleRegistration(array $data): Hotel
-    {
-        $data['user_id'] = auth()->id();
-
-        $hotel = Hotel::create($data);
-
-        $hotel->users()->attach(auth()->user());
-
-        return $hotel;
-    }
-} 
+}

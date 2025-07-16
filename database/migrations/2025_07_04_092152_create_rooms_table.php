@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('room_number'); // Ví dụ: 101, A1
             $table->enum('status', ['available', 'booked', 'occupied', 'cleaning'])->default('available');
             $table->foreignIdFor(Hotel::class);
-            $table->foreignIdFor(User::class);
             $table->text('note')->nullable();
             $table->timestamps();
         });

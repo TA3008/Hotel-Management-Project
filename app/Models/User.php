@@ -77,4 +77,10 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     {
         return true;
     }
+
+    /*Lấy quyền của user hiện tại */
+    public function getPermissionsTeam()
+    {
+        return hotel(); 
+    }
 }

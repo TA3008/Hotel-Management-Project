@@ -18,6 +18,7 @@ class Branch extends Model
         'phone',
         'email',
         'description',
+        'hotel_id',
     ];
 
     /** @return BelongsTo<\App\Models\Hotel, self> */

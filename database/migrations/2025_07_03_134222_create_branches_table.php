@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->text('description')->nullable();
             $table->foreignIdFor(Hotel::class);
-            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
     }

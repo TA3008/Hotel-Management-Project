@@ -20,7 +20,6 @@ return new class extends Migration
             $table->decimal('price', 12, 2);
             $table->unsignedInteger('bed_count');
             $table->foreignIdFor(Hotel::class);
-            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
     }

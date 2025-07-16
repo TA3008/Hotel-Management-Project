@@ -16,6 +16,7 @@ class Room extends Model
         'room_number',
         'status',
         'note',
+        'hotel_id',
     ];
 
     protected $casts = [

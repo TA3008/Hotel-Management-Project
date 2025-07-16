@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('icon')->nullable(); // icon hoặc class icon
             $table->text('description')->nullable(); 
             $table->foreignIdFor(Hotel::class);
-            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
     }
