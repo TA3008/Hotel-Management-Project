@@ -24,7 +24,7 @@ class BranchResource extends Resource
     protected static ?string $navigationLabel = 'Chi nhánh';
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $tenantOwnershipRelationshipName = 'hotel';
+    protected static ?string $tenantOwnershipRelationshipName = 'team';
 
     public static function getBreadcrumb(): string
     {
@@ -44,9 +44,9 @@ class BranchResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Select::make('hotel_id')
+            Select::make('team_id')
                 ->label('Khách sạn')
-                ->relationship('hotel', 'name')
+                ->relationship('team', 'name')
                 ->required(),
 
             TextInput::make('name')->label('Tên chi nhánh')->required(),
@@ -62,7 +62,7 @@ class BranchResource extends Resource
         return $table
             ->searchPlaceholder('Tìm kiếm tên, SĐT, địa chỉ...')
             ->columns([
-                TextColumn::make('hotel.name')->label('Khách sạn')->searchable(),
+                TextColumn::make('team.name')->label('Khách sạn')->searchable(),
                 TextColumn::make('name')->label('Tên chi nhánh')->searchable()->sortable(),
                 TextColumn::make('address')->label('Địa chỉ')->searchable(),
                 TextColumn::make('phone')->label('SĐT')->searchable(),

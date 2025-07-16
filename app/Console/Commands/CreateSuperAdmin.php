@@ -37,15 +37,15 @@ class CreateSuperAdmin extends Command
         $role->syncPermissions($permissions);
         $this->info('✅ Gán toàn bộ quyền cho role super_admin.');
 
-        // 👉 Không dùng assignRole vì nó không gán hotel_id
+        // 👉 Không dùng assignRole vì nó không gán team_id
         // 👉 Insert trực tiếp vào bảng trung gian
         DB::table('model_has_roles')->insertOrIgnore([
             'role_id'    => $role->id,
             'model_type' => User::class,
             'model_id'   => $user->id,
-            'hotel_id'   => 0, // gán hotel_id cố định
+            'team_id'   => 0, // gán team_id cố định
         ]);
-        $this->info('✅ Gán role super_admin cho user (có hotel_id = 0).');
+        $this->info('✅ Gán role super_admin cho user (có team_id = 0).');
 
         // Xóa cache quyền
         app()[PermissionRegistrar::class]->forgetCachedPermissions();

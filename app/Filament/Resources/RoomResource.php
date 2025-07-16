@@ -27,7 +27,7 @@ class RoomResource extends Resource
     protected static ?string $navigationLabel = 'Phòng';
     protected static ?int $navigationSort = 5;
 
-    protected static ?string $tenantOwnershipRelationshipName = 'hotel';
+    protected static ?string $tenantOwnershipRelationshipName = 'team';
 
     public static function form(Form $form): Form
     {
@@ -35,9 +35,9 @@ class RoomResource extends Resource
             Select::make('branch_id')
                 ->label('Chi nhánh')
                 ->options(function () {
-                    return Branch::with('hotel')->get()->mapWithKeys(function ($branch) {
+                    return Branch::with('team')->get()->mapWithKeys(function ($branch) {
                         return [
-                            $branch->id => "{$branch->name} - {$branch->hotel->name}",
+                            $branch->id => "{$branch->name} - {$branch->team->name}",
                         ];
                     })->toArray();
                 })
@@ -67,7 +67,7 @@ class RoomResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('room_number')->label('Số phòng')->sortable()->searchable(),
-                TextColumn::make('branch.hotel.name')
+                TextColumn::make('branch.team.name')
                     ->label('Khách sạn')
                     ->sortable()
                     ->searchable(),

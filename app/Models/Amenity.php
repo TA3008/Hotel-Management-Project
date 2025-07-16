@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Hotel;
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,13 +15,13 @@ class Amenity extends Model
         'name',
         'icon',
         'description',
-        'hotel_id',
+        'team_id',
     ];
 
-    /** @return BelongsTo<\App\Models\Hotel, self> */
-    public function hotel(): BelongsTo
+    /** @return BelongsTo<\App\Models\Team, self> */
+    public function team(): BelongsTo
     {
-        return $this->belongsTo(Hotel::class);
+        return $this->belongsTo(Team::class);
     }
 
 }
