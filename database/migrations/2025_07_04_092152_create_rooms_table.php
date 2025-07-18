@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
             $table->foreignId('room_type_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('amenity_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('room_number'); // Ví dụ: 101, A1
             $table->enum('status', ['available', 'booked', 'occupied', 'cleaning'])->default('available');
             $table->foreignIdFor(Team::class);

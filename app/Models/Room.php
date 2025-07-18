@@ -33,6 +33,11 @@ class Room extends Model
         return $this->belongsTo(RoomType::class);
     }
 
+    public function amenity()
+    {
+        return $this->belongsTo(Amenity::class);
+    }
+
     /** @return BelongsTo<\App\Models\Team, self> */
     public function team(): BelongsTo
     {
