@@ -55,6 +55,7 @@ class RegisterTeam extends RegisterTenant
     protected function handleRegistration(array $data): Team
     {
         $data['user_id'] = auth()->id();
+        $data['status'] = 'pending';
 
         $team = Team::create($data);
 
@@ -62,4 +63,10 @@ class RegisterTeam extends RegisterTenant
 
         return $team;
     }
+
+    protected function afterTenantRegistered(): void
+    {
+        $this->notify('success', 'Đăng ký thành công! Vui lòng đợi quản trị viên xác thực tài khoản.');
+    }
+
 } 

@@ -5,12 +5,15 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
 use App\Models\Team;
+use App\Enums\UserStatusEnum;
+use App\Models\Traits\TenantScope;
 use Illuminate\Support\Collection;
 use App\Models\Traits\BelongsToTenant;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasTenants;
+use Illuminate\Database\Eloquent\Builder;
 use Stancl\Tenancy\Database\Models\Tenant;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -55,7 +58,15 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status' => UserStatusEnum::class,
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::created(function ($user) {
+            $user->status = UserStatusEnum::Pending;
+        });
     }
 
     public function teams(): BelongsToMany

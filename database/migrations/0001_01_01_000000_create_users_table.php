@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('avatar')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('inactive');
+            $table->enum('status', ['active', 'inactive', 'pending'])->default('inactive');
             $table->rememberToken();
             $table->timestamps();
         });
