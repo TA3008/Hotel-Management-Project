@@ -4,13 +4,16 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
-use App\Models\Hotel;
+use App\Models\Team;
+use App\Enums\UserStatusEnum;
+use App\Models\Traits\TenantScope;
 use Illuminate\Support\Collection;
 use App\Models\Traits\BelongsToTenant;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasTenants;
+use Illuminate\Database\Eloquent\Builder;
 use Stancl\Tenancy\Database\Models\Tenant;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -55,26 +58,40 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status' => UserStatusEnum::class,
         ];
     }
 
-    public function hotels(): BelongsToMany
+    protected static function booted(): void
     {
-        return $this->belongsToMany(Hotel::class);
+        static::created(function ($user) {
+            $user->status = UserStatusEnum::Pending;
+        });
+    }
+
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class);
     }
 
     public function getTenants(Panel $panel): Collection
     {
-        return $this->hotels;
+        return $this->teams;
     }
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->hotels()->whereKey($tenant)->exists();
+        return $this->teams()->whereKey($tenant)->exists();
     }
 
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
+    }
+
+    /*Lấy quyền của user hiện tại */
+    public function getPermissionsTeam()
+    {
+        return team(); 
     }
 }

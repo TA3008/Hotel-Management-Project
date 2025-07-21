@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hotels', function (Blueprint $table) {
+        Schema::create('teams', function (Blueprint $table) {
         $table->id();
         $table->string('name');
         $table->string('email')->nullable();
@@ -20,7 +20,7 @@ return new class extends Migration
         $table->string('address')->nullable();
         $table->text('description')->nullable();
         $table->string('logo')->nullable(); // lưu path ảnh
-        $table->enum('status', ['active', 'inactive'])->default('active');
+        $table->enum('status', ['active', 'inactive', 'pending'])->default('active');
         $table->foreignIdFor(User::class);
         $table->timestamps();
     });
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('hotels');
+        Schema::dropIfExists('teams');
     }
 };

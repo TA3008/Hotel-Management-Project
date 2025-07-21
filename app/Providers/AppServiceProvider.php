@@ -27,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
             ->setPermissionClass(Permission::class)
             ->setRoleClass(Role::class);
 
-        
+
     }
 }

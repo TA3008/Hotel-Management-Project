@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use App\Models\Hotel;
+use App\Models\Team;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -20,8 +20,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->text('description')->nullable();
-            $table->foreignIdFor(Hotel::class);
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Team::class);
             $table->timestamps();
         });
     }

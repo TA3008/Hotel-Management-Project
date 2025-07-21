@@ -2,8 +2,9 @@
 
 namespace App\Filament\Pages\Tenancy;
 
-use App\Models\Hotel;
+use App\Models\Team;
 use Filament\Forms\Form;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -22,18 +23,18 @@ class RegisterTeam extends RegisterTenant
             TextInput::make('name')
                 ->required()
                 ->label('Tên khách sạn')
-                ->unique(Hotel::class, 'name', ignoreRecord: true),
+                ->unique(Team::class, 'name', ignoreRecord: true),
 
             TextInput::make('email')
                 ->email()
                 ->required()
                 ->label('Email')
-                ->unique(Hotel::class, 'email', ignoreRecord: true),
+                ->unique(Team::class, 'email', ignoreRecord: true),
 
             TextInput::make('phone')
                 ->label('Số điện thoại')
                 ->required()
-                ->unique(Hotel::class, 'phone', ignoreRecord: true),
+                ->unique(Team::class, 'phone', ignoreRecord: true),
 
             TextInput::make('address')
                 ->label('Địa chỉ')
@@ -47,18 +48,25 @@ class RegisterTeam extends RegisterTenant
             FileUpload::make('logo')
                 ->label('Logo')
                 ->image()
-                ->directory('hotels/logos'),
+                ->directory('teams/logos'),
         ]);
     }
 
-    protected function handleRegistration(array $data): Hotel
+    protected function handleRegistration(array $data): Team
     {
         $data['user_id'] = auth()->id();
+        $data['status'] = 'pending';
 
-        $hotel = Hotel::create($data);
+        $team = Team::create($data);
 
-        $hotel->users()->attach(auth()->user());
+        $team->users()->attach(auth()->user());
 
-        return $hotel;
+        return $team;
     }
+
+    protected function afterTenantRegistered(): void
+    {
+        $this->notify('success', 'Đăng ký thành công! Vui lòng đợi quản trị viên xác thực tài khoản.');
+    }
+
 } 

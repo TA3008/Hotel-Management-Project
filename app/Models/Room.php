@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Hotel;
+use App\Models\Team;
 use App\Enums\RoomStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +16,7 @@ class Room extends Model
         'room_number',
         'status',
         'note',
+        'team_id',
     ];
 
     protected $casts = [
@@ -32,10 +33,15 @@ class Room extends Model
         return $this->belongsTo(RoomType::class);
     }
 
-    /** @return BelongsTo<\App\Models\Hotel, self> */
-    public function hotel(): BelongsTo
+    public function amenity()
     {
-        return $this->belongsTo(Hotel::class);
+        return $this->belongsTo(Amenity::class);
+    }
+
+    /** @return BelongsTo<\App\Models\Team, self> */
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 
 }

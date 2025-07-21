@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Hotel extends Model
+class Team extends Model
 {
     use HasFactory;
 
@@ -65,6 +65,20 @@ class Hotel extends Model
     public function roomTypes(): HasMany
     {
         return $this->hasMany(\App\Models\RoomType::class);
+    }
+
+
+    /** @return HasMany<\App\Models\Booking, self> */
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(\App\Models\Booking::class);
+    }
+
+
+    /** @return HasMany<\App\Models\Customer, self> */
+    public function customers(): HasMany
+    {
+        return $this->hasMany(\App\Models\Customer::class);
     }
 
 }

@@ -93,7 +93,7 @@ return [
          * foreign key is other than `team_id`.
          */
 
-        'team_foreign_key' => 'hotel_id',
+        'team_foreign_key' => 'team_id',
     ],
 
     /*
@@ -132,7 +132,6 @@ return [
      */
 
     'teams' => true,
-    'team_foreign_key' => 'hotel_id',
 
     /*
      * The class to use to resolve the permissions team id
