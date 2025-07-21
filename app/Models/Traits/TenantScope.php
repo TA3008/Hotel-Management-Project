@@ -9,21 +9,18 @@ use Illuminate\Support\Facades\Auth;
 
 class TenantScope implements Scope
 {
-    public function applyTenantScope(Builder $builder, Model $model)
+    public function apply(Builder $builder, Model $model)
     {
-        // Kiểm tra nếu đang chạy trong console hoặc không có request
-        if (app()->runningInConsole() || !request()->hasSession()) {
+        $user = Auth::user(); 
+
+        if ($user && $user->hasRole('super_admin')) {
             return;
         }
 
-        $user = auth()->user();
+        if ($user && $user->team_id) {
+            $builder->where('team_id', $user->team_id);
+        } else {
 
-        // Nếu là super_admin thì bỏ lọc team
-        if ($user && $user->hasRole('super_admin')) {
-            return $query;
         }
-
-        // Nếu không thì lọc theo team_id
-        return $query->where('team_id', $user?->team_id);
     }
 }

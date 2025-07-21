@@ -12,6 +12,7 @@ use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use App\Models\Traits\TenantScope;
 use Forms\Components\CheckboxList;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
@@ -43,15 +44,10 @@ class UserResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
-        $user = Filament::auth()->user();
-
-        if ($user && $user->hasRole('super_admin')) {
-            // Super admin: bỏ lọc theo tenant
-            return $query->withoutGlobalScopes();
+        if (Auth::user() && Auth::user()->hasRole('super_admin')) {
+            return $query->withoutGlobalScope(Team::class);
         }
-
-        // Người dùng thường: lọc theo tenant hiện tại (team_id)
-        return $query->where('team_id', $user->team_id);
+        return $query;
     }
 
     public static function form(Form $form): Form
