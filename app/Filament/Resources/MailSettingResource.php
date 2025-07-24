@@ -21,6 +21,8 @@ class MailSettingResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-envelope';
     protected static ?string $navigationLabel = 'Cài đặt Email';
+    protected static ?string $navigationGroup = 'Quản trị hệ thống';
+    protected static ?int $navigationSort = 4;
 
     public static function getBreadcrumb(): string
     {

@@ -127,6 +127,12 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'mongodb' => [
+            'driver' => 'custom',
+            'via' => \App\Logging\CreateMongoLogger::class,
+            'level' => 'debug',
+        ],
+
     ],
 
 ];
