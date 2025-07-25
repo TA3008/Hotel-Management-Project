@@ -19,7 +19,7 @@ return new class extends Migration
         $table->string('phone')->nullable();
         $table->string('address')->nullable();
         $table->text('description')->nullable();
-        $table->string('logo')->nullable(); // lưu path ảnh
+        $table->string('image')->nullable(); // lưu path ảnh
         $table->enum('status', ['active', 'inactive', 'pending'])->default('active');
         $table->foreignIdFor(User::class);
         $table->timestamps();
