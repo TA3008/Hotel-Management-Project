@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\BookingResource\Pages;
 
-use App\Filament\Resources\BookingResource;
 use Filament\Actions;
+use App\Mail\BookingStatusConfirmedMail;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\BookingResource;
 
 class EditBooking extends EditRecord
 {
@@ -15,5 +16,18 @@ class EditBooking extends EditRecord
         return [
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $originalStatus = $this->record->status;
+
+        // Nếu trạng thái chuyển sang confirmed
+        if ($originalStatus !== $data['status'] && $data['status'] === BookingStatusEnum::Confirmed->value) {
+            Mail::to($this->record->customer_email)
+                ->send(new BookingStatusConfirmedMail($this->record));
+        }
+
+        return $data;
     }
 }

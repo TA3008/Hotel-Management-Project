@@ -23,7 +23,7 @@ return new class extends Migration
             $table->dateTime('starts_at')->nullable();
             $table->dateTime('expires_at')->nullable();
             $table->enum('status', ['active', 'inactive', 'expired'])->default('active');
-            $table->foreignIdFor(Team::class);
+            $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

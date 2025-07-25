@@ -41,10 +41,10 @@ class VoucherResource extends Resource
                     ->maxLength(50),
                 Select::make('type')
                     ->label('Loại giảm giá')
-                    ->options([
-                        'fixed' => 'Cố định',
-                        'percent' => 'Theo phần trăm',
-                    ]),
+                    ->enum(VoucherTypeEnum::class)
+                    ->options(VoucherTypeEnum::class)
+                    ->default(VoucherTypeEnum::Fixed)
+                    ->required(),
                 TextInput::make('amount')
                     ->label('Giá trị giảm')
                     ->numeric()

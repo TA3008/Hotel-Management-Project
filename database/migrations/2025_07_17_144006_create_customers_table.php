@@ -18,10 +18,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->required();
+            $table->timestamp('date_of_birth')->nullable();
             $table->string('address');
             $table->string('identity_number');
             $table->enum('customer_type', ['regular', 'vip'])->default('regular');
-            $table->foreignIdFor(Team::class);
+            $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

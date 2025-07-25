@@ -24,6 +24,7 @@ class Voucher extends Model
         'starts_at' => 'datetime',
         'expires_at' => 'datetime',
         'status' => VoucherStatusEnum::class, 
+        'type' => VoucherAmountEnum::class,
     ];
 
     public function isValid(): bool
