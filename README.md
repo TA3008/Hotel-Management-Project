@@ -6,6 +6,11 @@ php artisan app:create-super-admin
 # Tạo role owner
 php artisan app:generate-owner-role
 
+# Generate quyền filament-shield
+php artisan shield:generate --all
+
+# Seed data
+php artisan db:seed
 
 # Clear bộ nhớ 
 composer dump-autoload

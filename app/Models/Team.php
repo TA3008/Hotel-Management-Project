@@ -81,4 +81,11 @@ class Team extends Model
         return $this->hasMany(\App\Models\Customer::class);
     }
 
+
+    /** @return HasMany<\App\Models\Voucher, self> */
+    public function vouchers(): HasMany
+    {
+        return $this->hasMany(\App\Models\Voucher::class);
+    }
+
 }

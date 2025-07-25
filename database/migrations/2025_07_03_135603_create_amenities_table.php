@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name'); 
             $table->string('icon')->nullable(); // icon hoặc class icon
             $table->text('description')->nullable(); 
-            $table->foreignIdFor(Team::class);
+            $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

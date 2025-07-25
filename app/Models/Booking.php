@@ -6,6 +6,7 @@ use App\Models\Room;
 use App\Models\Team;
 use App\Models\Branch;
 use App\Models\Customer;
+use App\Enums\BookingStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -19,6 +20,10 @@ class Booking extends Model
         'check_out_date',
         'status',
         'team_id',
+    ];
+
+    protected $casts = [
+        'status' => BookingStatusEnum::class, 
     ];
 
     // Booking belongs to a user
@@ -37,6 +42,12 @@ class Booking extends Model
     public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    // Booking belongs to a customer
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
     }
 
     // Booking belongs to a hotel/team
