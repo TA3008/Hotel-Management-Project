@@ -18,11 +18,10 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Customer::class);
-            $table->foreignIdFor(Room::class);
             $table->foreignIdFor(Branch::class);
             $table->date('check_in_date');
             $table->date('check_out_date');
-            $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'confirmed', 'cancelled', 'refunded'])->default('pending');
             $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });

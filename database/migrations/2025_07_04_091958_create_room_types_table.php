@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('room_types', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('amenity_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->decimal('price', 12, 2);
+            $table->integer('price');
             $table->unsignedInteger('bed_count');
+            $table->string('image')->nullable(); 
             $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });

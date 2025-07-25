@@ -17,12 +17,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('branch_id')->constrained()->cascadeOnDelete();
             $table->foreignId('room_type_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('amenity_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('room_number'); 
             $table->text('description')->nullable();
             $table->enum('status', ['available', 'booked', 'occupied', 'cleaning'])->default('available');
+            $table->string('image')->nullable(); 
             $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
-            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
+            $table->string('image')->nullable(); 
             $table->text('description')->nullable();
             $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
             $table->timestamps();
