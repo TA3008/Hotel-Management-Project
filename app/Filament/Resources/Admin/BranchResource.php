@@ -12,9 +12,15 @@ use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\Admin\BranchResource\Pages;
+use App\Filament\Resources\Admin\BranchResource\Pages\EditBranch;
+use App\Filament\Resources\Admin\BranchResource\Pages\CreateBranch;
+use App\Filament\Resources\Admin\BranchResource\Pages\ListBranches;
 
 class BranchResource extends Resource
 {
@@ -50,6 +56,14 @@ class BranchResource extends Resource
                 ->required(),
 
             TextInput::make('name')->label('Tên chi nhánh')->required(),
+            FileUpload::make('image')
+                ->label('Ảnh đại diện')
+                ->disk('s3')
+                ->directory('branches/images')
+                ->getUploadedFileNameForStorageUsing(fn ($file, $record) =>
+                        FileNameHelper::aliasImageName($file, $record) 
+                        ?? 'default.png')
+                ->image(),
             TextInput::make('address')->label('Địa chỉ')->required(),
             TextInput::make('phone')->label('SĐT'),
             TextInput::make('email')->label('Email')->email(),
@@ -63,6 +77,13 @@ class BranchResource extends Resource
             ->searchPlaceholder('Tìm kiếm tên, SĐT, địa chỉ...')
             ->columns([
                 TextColumn::make('team.name')->label('Khách sạn')->searchable(),
+                ImageColumn::make('image')
+                    ->label('Ảnh đại diện')
+                    ->circular()
+                    ->size(50)
+                    ->getStateUsing(fn ($record) => $record->image 
+                        ? Storage::disk('s3')->url($record->image) 
+                        : null),
                 TextColumn::make('name')->label('Tên chi nhánh')->searchable()->sortable(),
                 TextColumn::make('address')->label('Địa chỉ')->searchable(),
                 TextColumn::make('phone')->label('SĐT')->searchable(),

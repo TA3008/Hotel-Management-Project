@@ -23,7 +23,7 @@ class Team extends Model
         'phone',
         'address',
         'description',
-        'logo',
+        'image',
         'user_id',
         'status',
     ];

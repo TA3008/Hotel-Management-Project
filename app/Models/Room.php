@@ -15,7 +15,8 @@ class Room extends Model
         'room_type_id',
         'room_number',
         'status',
-        'note',
+        'description',
+        'image',
         'team_id',
     ];
 

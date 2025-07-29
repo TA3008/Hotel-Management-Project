@@ -16,8 +16,14 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\Admin\RoomResource\Pages;
+use App\Filament\Resources\Admin\RoomResource\Pages\EditRoom;
+use App\Filament\Resources\Admin\RoomResource\Pages\ListRooms;
+use App\Filament\Resources\Admin\RoomResource\Pages\CreateRoom;
 
 class RoomResource extends Resource
 {
@@ -52,6 +58,15 @@ class RoomResource extends Resource
             TextInput::make('room_number')
                 ->label('Số phòng')
                 ->required(),
+            
+            FileUpload::make('image')
+                ->label('Ảnh đại diện')
+                ->disk('s3')
+                ->directory('rooms/images')
+                ->getUploadedFileNameForStorageUsing(fn ($file, $record) =>
+                        FileNameHelper::aliasImageName($file, $record) 
+                        ?? 'default.png')
+                ->image(),
 
             Select::make('status')
                 ->label('Trạng thái')
@@ -72,6 +87,13 @@ class RoomResource extends Resource
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('branch.name')->label('Chi nhánh'),
+                ImageColumn::make('image')
+                    ->label('Ảnh đại diện')
+                    ->circular()
+                    ->size(50)
+                    ->getStateUsing(fn ($record) => $record->image 
+                        ? Storage::disk('s3')->url($record->image)
+                        : null),
                 TextColumn::make('roomType.name')->label('Loại phòng'),
                 TextColumn::make('status')
                     ->label('Trạng thái')

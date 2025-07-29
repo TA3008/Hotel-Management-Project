@@ -45,10 +45,14 @@ class RegisterTeam extends RegisterTenant
                 ->disableToolbarButtons(['attachFiles'])
                 ->columnSpanFull(),
 
-            FileUpload::make('logo')
-                ->label('Logo')
+            FileUpload::make('image')
+                ->label('Ảnh đại diện')
+                ->disk('s3')
                 ->image()
-                ->directory('teams/logos'),
+                ->getUploadedFileNameForStorageUsing(fn ($file, $record) =>
+                        FileNameHelper::aliasImageName($file, $record) 
+                        ?? 'default.png')
+                ->directory('teams/images'),
         ]);
     }
 

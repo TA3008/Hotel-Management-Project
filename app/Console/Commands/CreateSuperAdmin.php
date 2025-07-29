@@ -46,12 +46,25 @@ class CreateSuperAdmin extends Command
         ]);
         $this->info('✅ Gán user vào team "SuperAdmin".');
 
-        // 4. Tạo role super_admin
-        $role = Role::firstOrCreate([
-            'name' => 'super_admin',
-            'guard_name' => 'web',
-            'team_id' => $team->id,
-        ]);
+        // 4. Kiểm tra role super_admin (dùng lại nếu Shield đã tạo)
+        $role = Role::where('name', 'super_admin')
+            ->where('guard_name', 'web')
+            ->first();
+
+        if (! $role) {
+            $role = Role::create([
+                'name' => 'super_admin',
+                'guard_name' => 'web',
+                'team_id' => $team->id,
+            ]);
+        } else {
+            // Nếu đã có role nhưng chưa có team_id thì thêm team_id
+            if (is_null($role->team_id)) {
+                $role->team_id = $team->id;
+                $role->save();
+            }
+        }
+
         $this->info('✅ Role super_admin đã tồn tại hoặc được tạo.');
 
         // 5. Lấy toàn bộ permission (admin + system)
@@ -64,14 +77,11 @@ class CreateSuperAdmin extends Command
             return 1;
         }
 
-        // 6. Đồng bộ team_id cho permission (nếu chưa có)
-        Permission::whereNull('team_id')->update(['team_id' => $team->id]);
-
-        // 7. Gán toàn bộ permission cho role
+        // 6. Gán toàn bộ permission cho role
         $role->syncPermissions($permissions);
         $this->info('✅ Gán toàn bộ quyền (admin + system) vào role super_admin.');
 
-        // 8. Gán role cho user
+        // 7. Gán role cho user
         DB::table('model_has_roles')->insertOrIgnore([
             'role_id' => $role->id,
             'model_type' => User::class,

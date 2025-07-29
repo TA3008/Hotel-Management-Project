@@ -44,10 +44,14 @@ class EditTeamProfile extends EditTenantProfile
                 ->disableToolbarButtons(['attachFiles'])
                 ->columnSpanFull(),
 
-            FileUpload::make('logo')
-                ->label('Logo')
-                ->image()
-                ->directory('teams/logos'),
+            FileUpload::make('image')
+                ->label('Ảnh đại diện')
+                ->disk('s3')
+                ->directory('teams/images')
+                ->getUploadedFileNameForStorageUsing(fn ($file, $record) =>
+                        FileNameHelper::aliasImageName($file, $record) 
+                        ?? 'default.png')
+                ->image(),
         ]);
     }
 }
