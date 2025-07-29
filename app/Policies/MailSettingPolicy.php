@@ -15,7 +15,7 @@ class MailSettingPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_mail::setting');
+        return $user->can('view_any_system::mail::setting');
     }
 
     /**
@@ -23,7 +23,7 @@ class MailSettingPolicy
      */
     public function view(User $user, MailSetting $mailSetting): bool
     {
-        return $user->can('view_mail::setting');
+        return $user->can('view_system::mail::setting');
     }
 
     /**
@@ -31,7 +31,7 @@ class MailSettingPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_mail::setting');
+        return $user->can('create_system::mail::setting');
     }
 
     /**
@@ -39,7 +39,7 @@ class MailSettingPolicy
      */
     public function update(User $user, MailSetting $mailSetting): bool
     {
-        return $user->can('update_mail::setting');
+        return $user->can('update_system::mail::setting');
     }
 
     /**
@@ -47,7 +47,7 @@ class MailSettingPolicy
      */
     public function delete(User $user, MailSetting $mailSetting): bool
     {
-        return $user->can('delete_mail::setting');
+        return $user->can('delete_system::mail::setting');
     }
 
     /**
@@ -55,7 +55,7 @@ class MailSettingPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_mail::setting');
+        return $user->can('delete_any_system::mail::setting');
     }
 
     /**
@@ -63,7 +63,7 @@ class MailSettingPolicy
      */
     public function forceDelete(User $user, MailSetting $mailSetting): bool
     {
-        return $user->can('force_delete_mail::setting');
+        return $user->can('force_delete_system::mail::setting');
     }
 
     /**
@@ -71,7 +71,7 @@ class MailSettingPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_mail::setting');
+        return $user->can('force_delete_any_system::mail::setting');
     }
 
     /**
@@ -79,7 +79,7 @@ class MailSettingPolicy
      */
     public function restore(User $user, MailSetting $mailSetting): bool
     {
-        return $user->can('restore_mail::setting');
+        return $user->can('restore_system::mail::setting');
     }
 
     /**
@@ -87,7 +87,7 @@ class MailSettingPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_mail::setting');
+        return $user->can('restore_any_system::mail::setting');
     }
 
     /**
@@ -95,7 +95,7 @@ class MailSettingPolicy
      */
     public function replicate(User $user, MailSetting $mailSetting): bool
     {
-        return $user->can('replicate_mail::setting');
+        return $user->can('replicate_system::mail::setting');
     }
 
     /**
@@ -103,6 +103,6 @@ class MailSettingPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_mail::setting');
+        return $user->can('reorder_system::mail::setting');
     }
 }

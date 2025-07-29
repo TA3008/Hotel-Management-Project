@@ -15,7 +15,7 @@ class VoucherPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_voucher');
+        return $user->can('view_any_admin::voucher');
     }
 
     /**
@@ -23,7 +23,7 @@ class VoucherPolicy
      */
     public function view(User $user, Voucher $voucher): bool
     {
-        return $user->can('view_voucher');
+        return $user->can('view_admin::voucher');
     }
 
     /**
@@ -31,7 +31,7 @@ class VoucherPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_voucher');
+        return $user->can('create_admin::voucher');
     }
 
     /**
@@ -39,7 +39,7 @@ class VoucherPolicy
      */
     public function update(User $user, Voucher $voucher): bool
     {
-        return $user->can('update_voucher');
+        return $user->can('update_admin::voucher');
     }
 
     /**
@@ -47,7 +47,7 @@ class VoucherPolicy
      */
     public function delete(User $user, Voucher $voucher): bool
     {
-        return $user->can('delete_voucher');
+        return $user->can('delete_admin::voucher');
     }
 
     /**
@@ -55,7 +55,7 @@ class VoucherPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_voucher');
+        return $user->can('delete_any_admin::voucher');
     }
 
     /**
@@ -63,7 +63,7 @@ class VoucherPolicy
      */
     public function forceDelete(User $user, Voucher $voucher): bool
     {
-        return $user->can('force_delete_voucher');
+        return $user->can('force_delete_admin::voucher');
     }
 
     /**
@@ -71,7 +71,7 @@ class VoucherPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_voucher');
+        return $user->can('force_delete_any_admin::voucher');
     }
 
     /**
@@ -79,7 +79,7 @@ class VoucherPolicy
      */
     public function restore(User $user, Voucher $voucher): bool
     {
-        return $user->can('restore_voucher');
+        return $user->can('restore_admin::voucher');
     }
 
     /**
@@ -87,7 +87,7 @@ class VoucherPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_voucher');
+        return $user->can('restore_any_admin::voucher');
     }
 
     /**
@@ -95,7 +95,7 @@ class VoucherPolicy
      */
     public function replicate(User $user, Voucher $voucher): bool
     {
-        return $user->can('replicate_voucher');
+        return $user->can('replicate_admin::voucher');
     }
 
     /**
@@ -103,6 +103,6 @@ class VoucherPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_voucher');
+        return $user->can('reorder_admin::voucher');
     }
 }

@@ -15,7 +15,7 @@ class RoomTypePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_room::type');
+        return $user->can('view_any_admin::room::type');
     }
 
     /**
@@ -23,7 +23,7 @@ class RoomTypePolicy
      */
     public function view(User $user, RoomType $roomType): bool
     {
-        return $user->can('view_room::type');
+        return $user->can('view_admin::room::type');
     }
 
     /**
@@ -31,7 +31,7 @@ class RoomTypePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_room::type');
+        return $user->can('create_admin::room::type');
     }
 
     /**
@@ -39,7 +39,7 @@ class RoomTypePolicy
      */
     public function update(User $user, RoomType $roomType): bool
     {
-        return $user->can('update_room::type');
+        return $user->can('update_admin::room::type');
     }
 
     /**
@@ -47,7 +47,7 @@ class RoomTypePolicy
      */
     public function delete(User $user, RoomType $roomType): bool
     {
-        return $user->can('delete_room::type');
+        return $user->can('delete_admin::room::type');
     }
 
     /**
@@ -55,7 +55,7 @@ class RoomTypePolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_room::type');
+        return $user->can('delete_any_admin::room::type');
     }
 
     /**
@@ -63,7 +63,7 @@ class RoomTypePolicy
      */
     public function forceDelete(User $user, RoomType $roomType): bool
     {
-        return $user->can('force_delete_room::type');
+        return $user->can('force_delete_admin::room::type');
     }
 
     /**
@@ -71,7 +71,7 @@ class RoomTypePolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_room::type');
+        return $user->can('force_delete_any_admin::room::type');
     }
 
     /**
@@ -79,7 +79,7 @@ class RoomTypePolicy
      */
     public function restore(User $user, RoomType $roomType): bool
     {
-        return $user->can('restore_room::type');
+        return $user->can('restore_admin::room::type');
     }
 
     /**
@@ -87,7 +87,7 @@ class RoomTypePolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_room::type');
+        return $user->can('restore_any_admin::room::type');
     }
 
     /**
@@ -95,7 +95,7 @@ class RoomTypePolicy
      */
     public function replicate(User $user, RoomType $roomType): bool
     {
-        return $user->can('replicate_room::type');
+        return $user->can('replicate_admin::room::type');
     }
 
     /**
@@ -103,6 +103,6 @@ class RoomTypePolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_room::type');
+        return $user->can('reorder_admin::room::type');
     }
 }

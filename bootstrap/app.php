@@ -4,6 +4,7 @@ use App\Jobs\SendBirthdayEmailsJob;
 use Illuminate\Foundation\Application;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Providers\MailConfigServiceProvider;
+use App\Http\Middleware\SuperAdminMiddleware;
 use App\Http\Middleware\InitializeTenancyFromUser;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,8 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(append: [
-            //
+        $middleware->alias([
+            'super_admin' => SuperAdminMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

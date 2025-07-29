@@ -33,6 +33,8 @@ return [
         'name' => 'panel_user',
     ],
 
+    'shield_panel_id' => 'admin',
+
     'permission_prefixes' => [
         'resource' => [
             'view',

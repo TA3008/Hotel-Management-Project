@@ -7,17 +7,20 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use App\Http\Middleware\SuperAdmin;
 use Illuminate\Support\Facades\Log;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use TomatoPHP\FilamentSimpleTheme\FilamentSimpleThemePlugin;
 
 class SystemPanelProvider extends PanelProvider
 {
@@ -30,8 +33,8 @@ class SystemPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/Resources/System'), for: 'App\\Filament\\Resources\\System')
+            ->discoverPages(in: app_path('Filament/Pages/System'), for: 'App\\Filament\\Pages\\System')
             ->pages([
                 Pages\Dashboard::class,
             ])
@@ -50,9 +53,18 @@ class SystemPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                // 'super_admin',
             ])
             ->authMiddleware([
                 Authenticate::class,
             ]);
     }
+
+    public function boot()
+    {
+        if (request()->is('system/*')) {
+            config(['permission.teams' => false]);
+        }
+    }
+
 }
