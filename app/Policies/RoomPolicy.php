@@ -15,7 +15,7 @@ class RoomPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_room');
+        return $user->can('view_any_admin::room');
     }
 
     /**
@@ -23,7 +23,7 @@ class RoomPolicy
      */
     public function view(User $user, Room $room): bool
     {
-        return $user->can('view_room');
+        return $user->can('view_admin::room');
     }
 
     /**
@@ -31,7 +31,7 @@ class RoomPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_room');
+        return $user->can('create_admin::room');
     }
 
     /**
@@ -39,7 +39,7 @@ class RoomPolicy
      */
     public function update(User $user, Room $room): bool
     {
-        return $user->can('update_room');
+        return $user->can('update_admin::room');
     }
 
     /**
@@ -47,7 +47,7 @@ class RoomPolicy
      */
     public function delete(User $user, Room $room): bool
     {
-        return $user->can('delete_room');
+        return $user->can('delete_admin::room');
     }
 
     /**
@@ -55,7 +55,7 @@ class RoomPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_room');
+        return $user->can('delete_any_admin::room');
     }
 
     /**
@@ -63,7 +63,7 @@ class RoomPolicy
      */
     public function forceDelete(User $user, Room $room): bool
     {
-        return $user->can('force_delete_room');
+        return $user->can('force_delete_admin::room');
     }
 
     /**
@@ -71,7 +71,7 @@ class RoomPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_room');
+        return $user->can('force_delete_any_admin::room');
     }
 
     /**
@@ -79,7 +79,7 @@ class RoomPolicy
      */
     public function restore(User $user, Room $room): bool
     {
-        return $user->can('restore_room');
+        return $user->can('restore_admin::room');
     }
 
     /**
@@ -87,7 +87,7 @@ class RoomPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_room');
+        return $user->can('restore_any_admin::room');
     }
 
     /**
@@ -95,7 +95,7 @@ class RoomPolicy
      */
     public function replicate(User $user, Room $room): bool
     {
-        return $user->can('replicate_room');
+        return $user->can('replicate_admin::room');
     }
 
     /**
@@ -103,6 +103,6 @@ class RoomPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_room');
+        return $user->can('reorder_admin::room');
     }
 }

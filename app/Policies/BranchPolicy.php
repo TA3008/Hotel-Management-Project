@@ -15,7 +15,7 @@ class BranchPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_branch');
+        return $user->can('view_any_admin::branch');
     }
 
     /**
@@ -23,7 +23,7 @@ class BranchPolicy
      */
     public function view(User $user, Branch $branch): bool
     {
-        return $user->can('view_branch');
+        return $user->can('view_admin::branch');
     }
 
     /**
@@ -31,7 +31,7 @@ class BranchPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_branch');
+        return $user->can('create_admin::branch');
     }
 
     /**
@@ -39,7 +39,7 @@ class BranchPolicy
      */
     public function update(User $user, Branch $branch): bool
     {
-        return $user->can('update_branch');
+        return $user->can('update_admin::branch');
     }
 
     /**
@@ -47,7 +47,7 @@ class BranchPolicy
      */
     public function delete(User $user, Branch $branch): bool
     {
-        return $user->can('delete_branch');
+        return $user->can('delete_admin::branch');
     }
 
     /**
@@ -55,7 +55,7 @@ class BranchPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_branch');
+        return $user->can('delete_any_admin::branch');
     }
 
     /**
@@ -63,7 +63,7 @@ class BranchPolicy
      */
     public function forceDelete(User $user, Branch $branch): bool
     {
-        return $user->can('force_delete_branch');
+        return $user->can('force_delete_admin::branch');
     }
 
     /**
@@ -71,7 +71,7 @@ class BranchPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_branch');
+        return $user->can('force_delete_any_admin::branch');
     }
 
     /**
@@ -79,7 +79,7 @@ class BranchPolicy
      */
     public function restore(User $user, Branch $branch): bool
     {
-        return $user->can('restore_branch');
+        return $user->can('restore_admin::branch');
     }
 
     /**
@@ -87,7 +87,7 @@ class BranchPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_branch');
+        return $user->can('restore_any_admin::branch');
     }
 
     /**
@@ -95,7 +95,7 @@ class BranchPolicy
      */
     public function replicate(User $user, Branch $branch): bool
     {
-        return $user->can('replicate_branch');
+        return $user->can('replicate_admin::branch');
     }
 
     /**
@@ -103,6 +103,6 @@ class BranchPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_branch');
+        return $user->can('reorder_admin::branch');
     }
 }

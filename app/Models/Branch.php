@@ -18,6 +18,7 @@ class Branch extends Model
         'phone',
         'email',
         'description',
+        'image',
         'team_id',
     ];
 

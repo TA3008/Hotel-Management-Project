@@ -15,7 +15,7 @@ class AmenityPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_amenity');
+        return $user->can('view_any_admin::amenity');
     }
 
     /**
@@ -23,7 +23,7 @@ class AmenityPolicy
      */
     public function view(User $user, Amenity $amenity): bool
     {
-        return $user->can('view_amenity');
+        return $user->can('view_admin::amenity');
     }
 
     /**
@@ -31,7 +31,7 @@ class AmenityPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_amenity');
+        return $user->can('create_admin::amenity');
     }
 
     /**
@@ -39,7 +39,7 @@ class AmenityPolicy
      */
     public function update(User $user, Amenity $amenity): bool
     {
-        return $user->can('update_amenity');
+        return $user->can('update_admin::amenity');
     }
 
     /**
@@ -47,7 +47,7 @@ class AmenityPolicy
      */
     public function delete(User $user, Amenity $amenity): bool
     {
-        return $user->can('delete_amenity');
+        return $user->can('delete_admin::amenity');
     }
 
     /**
@@ -55,7 +55,7 @@ class AmenityPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_amenity');
+        return $user->can('delete_any_admin::amenity');
     }
 
     /**
@@ -63,7 +63,7 @@ class AmenityPolicy
      */
     public function forceDelete(User $user, Amenity $amenity): bool
     {
-        return $user->can('force_delete_amenity');
+        return $user->can('force_delete_admin::amenity');
     }
 
     /**
@@ -71,7 +71,7 @@ class AmenityPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_amenity');
+        return $user->can('force_delete_any_admin::amenity');
     }
 
     /**
@@ -79,7 +79,7 @@ class AmenityPolicy
      */
     public function restore(User $user, Amenity $amenity): bool
     {
-        return $user->can('restore_amenity');
+        return $user->can('restore_admin::amenity');
     }
 
     /**
@@ -87,7 +87,7 @@ class AmenityPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_amenity');
+        return $user->can('restore_any_admin::amenity');
     }
 
     /**
@@ -95,7 +95,7 @@ class AmenityPolicy
      */
     public function replicate(User $user, Amenity $amenity): bool
     {
-        return $user->can('replicate_amenity');
+        return $user->can('replicate_admin::amenity');
     }
 
     /**
@@ -103,6 +103,6 @@ class AmenityPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_amenity');
+        return $user->can('reorder_admin::amenity');
     }
 }
