@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Team;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role as SpatieRole;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Models\Team;
 
 class Role extends SpatieRole
 {
@@ -22,6 +23,15 @@ class Role extends SpatieRole
             'role_id',
             'permission_id'
         );
+    }
+
+    public function getActivityLogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'guard_name'])
+            ->logOnlyDirty()
+            ->useLogName('role')
+            ->setDescriptionForEvent(fn(string $eventName) => "Role {$eventName}");
     }
 
     /** @return BelongsTo<\App\Models\Team, self> */

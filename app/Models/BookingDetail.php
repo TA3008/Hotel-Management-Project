@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Room;
 use App\Models\Team;
 use App\Models\Booking;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 
 class BookingDetail extends Model
@@ -17,6 +18,15 @@ class BookingDetail extends Model
         'email',
         'phone',
     ];
+
+    public function getActivityLogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['booking_id', 'room_id', 'price', 'name', 'email', 'phone'])
+            ->logOnlyDirty()
+            ->useLogName('booking_detail')
+            ->setDescriptionForEvent(fn(string $eventName) => "Booking Detail {$eventName}");
+    }
 
     public function booking(): BelongsTo
     {

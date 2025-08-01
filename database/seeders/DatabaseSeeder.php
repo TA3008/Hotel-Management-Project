@@ -19,10 +19,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(BranchSeeder::class);
-        $this->call(AmenitySeeder::class);
-        $this->call(RoomTypeSeeder::class);
-        $this->call(RoomSeeder::class);
-        $this->call(VoucherSeeder::class);
+        $this->call([
+            BranchSeeder::class,
+            AmenitySeeder::class,
+            RoomTypeSeeder::class,
+            RoomSeeder::class,
+            VoucherSeeder::class,
+            CustomerSeeder::class,
+            BookingSeeder::class,
+            BookingDetailSeeder::class,
+            PaymentSeeder::class,
+        ]);
     }
 }
