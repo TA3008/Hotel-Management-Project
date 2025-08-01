@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Models\Branch;
 use App\Models\Customer;
 use App\Enums\BookingStatusEnum;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -25,6 +26,15 @@ class Booking extends Model
     protected $casts = [
         'status' => BookingStatusEnum::class, 
     ];
+
+    public function getActivityLogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['check_in_date', 'check_out_date', 'status'])
+            ->logOnlyDirty()
+            ->useLogName('booking')
+            ->setDescriptionForEvent(fn(string $eventName) => "Booking {$eventName}");
+    }
 
     // Booking belongs to a user
     public function user(): BelongsTo

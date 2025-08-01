@@ -8,6 +8,7 @@ use App\Models\Team;
 use App\Enums\UserStatusEnum;
 use App\Models\Traits\TenantScope;
 use Illuminate\Support\Collection;
+use Spatie\Activitylog\LogOptions;
 use App\Models\Traits\BelongsToTenant;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
@@ -67,6 +68,15 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         static::created(function ($user) {
             $user->status = UserStatusEnum::Pending;
         });
+    }
+
+    public function getActivityLogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'status'])
+            ->logOnlyDirty()
+            ->useLogName('user')
+            ->setDescriptionForEvent(fn(string $eventName) => "User {$eventName}");
     }
 
     public function teams(): BelongsToMany

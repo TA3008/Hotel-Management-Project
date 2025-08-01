@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Room;
 use App\Models\Team;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -18,6 +20,15 @@ class RoomType extends Model
         'image',
         'team_id',
     ];
+
+    public function getActivityLogOptions(): \Spatie\Activitylog\LogOptions
+    {
+        return \Spatie\Activitylog\LogOptions::defaults()
+            ->logOnly(['name', 'amenities_id', 'description', 'price', 'bed_count'])
+            ->logOnlyDirty()
+            ->useLogName('room_type')
+            ->setDescriptionForEvent(fn(string $eventName) => "Room Type {$eventName}");
+    }
 
     public function rooms()
     {

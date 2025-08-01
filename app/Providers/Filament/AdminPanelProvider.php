@@ -7,13 +7,17 @@ use Filament\Panel;
 use App\Models\Team;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use Filament\Pages\Dashboard;
+use Filament\Facades\Filament;
 use Filament\Pages\Auth\Register;
 use Filament\Support\Colors\Color;
+use Filament\Widgets\AccountWidget;
 use Stancl\Tenancy\Contracts\Tenant;
+use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
 use App\Filament\Pages\Tenancy\RegisterTeam;
-use Illuminate\Session\Middleware\StartSession;
 use App\Filament\Pages\Tenancy\EditTeamProfile;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -25,6 +29,9 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use TomatoPHP\FilamentSimpleTheme\FilamentSimpleThemePlugin;
+use App\Filament\Resources\Admin\AdminResource\Widgets\BookingStats;
+use App\Filament\Resources\Admin\AdminResource\Widgets\RecentBookings;
+use App\Filament\Resources\Admin\AdminResource\Widgets\BookingRevenueChart;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -48,6 +55,9 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+                BookingStats::class,
+                BookingRevenueChart::class,
+                RecentBookings::class,
             ])
             ->middleware([
                 EncryptCookies::class,

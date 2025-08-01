@@ -21,7 +21,6 @@ class RoomSeeder extends Seeder
 
         $branches = Branch::all();
         $roomTypes = RoomType::all();
-        $amenities = Amenity::all();
 
         if ($branches->isEmpty() || $roomTypes->isEmpty()) {
             $this->command->warn('Hãy seed Branch và RoomType trước khi seed Room.');
