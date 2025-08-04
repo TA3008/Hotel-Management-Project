@@ -101,7 +101,7 @@ class BookingResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('customer.name')->label('Khách hàng')->sortable()->searchable(),
-                TextColumn::make('booking_detail.0.room.room_number')->label('Phòng')->sortable()->searchable(),
+                TextColumn::make('bookingDetails.0.room.room_number')->label('Phòng')->sortable()->searchable(),
                 TextColumn::make('branch.name')->label('Chi nhánh')->sortable()->searchable(),
                 TextColumn::make('team.name')->label('Khách sạn')->sortable()->searchable(),
 
@@ -119,7 +119,7 @@ class BookingResource extends Resource
                     ->color(fn (BookingStatusEnum $state) => match ($state) {
                         BookingStatusEnum::Pending => 'primary',
                         BookingStatusEnum::Confirmed => 'success',
-                        BookingStatusEnum::Cancelled, BookingStatusEnum::Refunded => 'danger',
+                        BookingStatusEnum::Cancelled => 'danger',
                         BookingStatusEnum::Refunded => 'gray',
                     }),
 
