@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('identity_number');
             $table->enum('customer_type', ['regular', 'vip'])->default('regular');
+            $table->timestamp('email_verified_at')->nullable();
             $table->foreignIdFor(Team::class)->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });

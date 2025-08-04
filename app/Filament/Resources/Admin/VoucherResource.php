@@ -86,7 +86,13 @@ class VoucherResource extends Resource
 
                 TextColumn::make('type')
                     ->label('Loại')
-                    ->formatStateUsing(fn (string $state) => $state === 'fixed' ? 'Cố định' : 'Phần trăm')
+                    ->formatStateUsing(function ($state) {
+                        if ($state instanceof \App\Enums\VoucherTypeEnum) {
+                            return $state->label();
+                        }
+
+                        return \App\Enums\VoucherTypeEnum::tryFrom($state)?->label() ?? $state;
+                    })
                     ->sortable(),
 
                 TextColumn::make('amount')

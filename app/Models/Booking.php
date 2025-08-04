@@ -6,9 +6,11 @@ use App\Models\Room;
 use App\Models\Team;
 use App\Models\Branch;
 use App\Models\Customer;
+use App\Models\BookingDetail;
 use App\Enums\BookingStatusEnum;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Booking extends Model
@@ -36,12 +38,6 @@ class Booking extends Model
             ->setDescriptionForEvent(fn(string $eventName) => "Booking {$eventName}");
     }
 
-    // Booking belongs to a user
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(Customer::class);
-    }
-
     // Booking belongs to a room
     public function room(): BelongsTo
     {
@@ -64,5 +60,10 @@ class Booking extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function bookingDetails(): HasMany
+    {
+        return $this->hasMany(BookingDetail::class);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Models\Booking;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BookingDetail extends Model
 {
