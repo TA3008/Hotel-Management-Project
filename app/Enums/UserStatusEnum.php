@@ -16,4 +16,13 @@ enum UserStatusEnum: string
             self::Inactive => 'Vô hiệu hóa',
         };
     }
+
+    public static function options(): array
+    {
+        return [
+            self::Active->value => self::Active->label(),
+            self::Pending->value => self::Pending->label(),
+            self::Inactive->value => self::Inactive->label(),
+        ];
+    }
 }

@@ -38,12 +38,18 @@ class BookingResource extends Resource
 
     protected static ?string $tenantOwnershipRelationshipName = 'team';
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()
+            ->with(['bookingDetails.room']);
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Select::make('user_id')
+            Select::make('customer_id')
                 ->label('Khách hàng')
-                ->relationship('user', 'name')
+                ->relationship('customer', 'name')
                 ->searchable()
                 ->required(),
 
@@ -61,7 +67,13 @@ class BookingResource extends Resource
 
             Select::make('room_id')
                 ->label('Phòng')
-                ->relationship('room', 'room_number')
+                ->options(function (callable $get) {
+                    $branchId = $get('branch_id');
+
+                    if (!$branchId) return [];
+
+                    return Room::where('branch_id', $branchId)->pluck('room_number', 'id');
+                })
                 ->searchable()
                 ->required(),
 
@@ -88,8 +100,8 @@ class BookingResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')->label('Khách hàng')->sortable()->searchable(),
-                TextColumn::make('room.room_number')->label('Phòng')->sortable()->searchable(),
+                TextColumn::make('customer.name')->label('Khách hàng')->sortable()->searchable(),
+                TextColumn::make('booking_detail.0.room.room_number')->label('Phòng')->sortable()->searchable(),
                 TextColumn::make('branch.name')->label('Chi nhánh')->sortable()->searchable(),
                 TextColumn::make('team.name')->label('Khách sạn')->sortable()->searchable(),
 
@@ -103,12 +115,13 @@ class BookingResource extends Resource
 
                 BadgeColumn::make('status')
                     ->label('Trạng thái')
-                    ->formatStateUsing(fn (string $state) => BookingStatusEnum::tryFrom($state)?->label() ?? $state)
-                    ->colors([
-                        'primary' => BookingStatusEnum::Pending->value,
-                        'success' => BookingStatusEnum::Confirmed->value,
-                        'danger' => BookingStatusEnum::Cancelled->value,
-                    ]),
+                    ->formatStateUsing(fn (BookingStatusEnum $state) => $state->label())
+                    ->color(fn (BookingStatusEnum $state) => match ($state) {
+                        BookingStatusEnum::Pending => 'primary',
+                        BookingStatusEnum::Confirmed => 'success',
+                        BookingStatusEnum::Cancelled, BookingStatusEnum::Refunded => 'danger',
+                        BookingStatusEnum::Refunded => 'gray',
+                    }),
 
             ])
             ->filters([

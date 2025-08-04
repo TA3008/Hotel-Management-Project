@@ -4,13 +4,13 @@ namespace App\Enums;
 
 enum CustomerTypeEnum: string
 {
-    case Casual = 'casual';
+    case Regular = 'regular';
     case VIP = 'vip';
 
     public function label(): string
     {
         return match ($this) {
-            self::Casual => 'Khách thường',
+            self::Regular => 'Khách thường',
             self::VIP => 'Khách VIP',
         };
     }
