@@ -13,10 +13,12 @@ class BookingStatusConfirmedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $booking;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($booking)
     {
         $this->booking = $booking;
     }
@@ -38,6 +40,9 @@ class BookingStatusConfirmedMail extends Mailable
     {
         return new Content(
             markdown: 'emails.bookings.status-confirmed',
+            with: [
+                'booking' => $this->booking, 
+            ]
         );
     }
 

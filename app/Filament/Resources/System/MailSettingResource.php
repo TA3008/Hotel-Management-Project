@@ -49,9 +49,9 @@ class MailSettingResource extends Resource
     }
 
     public static function canViewAny(): bool
-{
-    return true;
-}
+    {
+        return true;
+    }
 
 
     public static function form(Form $form): Form

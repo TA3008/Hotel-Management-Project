@@ -15,7 +15,7 @@ class MailSettingPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_system::mail::setting');
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class MailSettingPolicy
      */
     public function view(User $user, MailSetting $mailSetting): bool
     {
-        return $user->can('view_system::mail::setting');
+        return true;
     }
 
     /**
@@ -31,7 +31,7 @@ class MailSettingPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_system::mail::setting');
+        return true;
     }
 
     /**
@@ -39,7 +39,7 @@ class MailSettingPolicy
      */
     public function update(User $user, MailSetting $mailSetting): bool
     {
-        return $user->can('update_system::mail::setting');
+        return true;
     }
 
     /**

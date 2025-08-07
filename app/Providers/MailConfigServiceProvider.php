@@ -25,11 +25,14 @@ class MailConfigServiceProvider extends ServiceProvider
         $mailSetting = MailSetting::first();
 
         if ($mailSetting) {
+            Config::set('mail.default', 'smtp');
             Config::set('mail.mailers.smtp.host', $mailSetting->host);
             Config::set('mail.mailers.smtp.port', $mailSetting->port);
             Config::set('mail.mailers.smtp.username', $mailSetting->username);
             Config::set('mail.mailers.smtp.password', $mailSetting->password);
             Config::set('mail.from.address', $mailSetting->from_email);
+
+            Config::set('mail.mailers.smtp.encryption', 'tls'); 
         }
     }
 }
