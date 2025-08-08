@@ -88,4 +88,11 @@ class Team extends Model
         return $this->hasMany(\App\Models\Voucher::class);
     }
 
+
+    /** @return HasMany<\App\Models\Activity, self> */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(\App\Models\Activity::class);
+    }
+
 }

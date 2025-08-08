@@ -10,6 +10,7 @@ use Database\Seeders\TeamSeeder;
 use Database\Seeders\BranchSeeder;
 use Database\Seeders\AmenitySeeder;
 use Database\Seeders\VoucherSeeder;
+use Database\Seeders\RoleUserSeeder;
 use Database\Seeders\RoomTypeSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            RoleUserSeeder::class,
             BranchSeeder::class,
             AmenitySeeder::class,
             RoomTypeSeeder::class,
