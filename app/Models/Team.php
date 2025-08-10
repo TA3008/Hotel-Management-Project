@@ -95,4 +95,11 @@ class Team extends Model
         return $this->hasMany(\App\Models\Activity::class);
     }
 
+
+    /** @return HasMany<\App\Models\BookingStaffAssignment, self> */
+    public function bookingStaffAssignments(): HasMany
+    {
+        return $this->hasMany(\App\Models\BookingStaffAssignment::class);
+    }
+
 }

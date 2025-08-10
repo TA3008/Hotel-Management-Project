@@ -12,16 +12,17 @@ use Filament\Forms\Components\Select;
 use App\Models\BookingStaffAssignment;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\Admin\BookingStaffAssignmentResource\Pages;
-use App\Filament\Resources\Admin\BookingStaffAssignmentResource\RelationManagers;
 
 class BookingStaffAssignmentResource extends Resource
 {
     protected static ?string $model = BookingStaffAssignment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationGroup = 'Quản lý đặt phòng';
+    protected static ?string $navigationLabel = 'Phân công nhân viên';
+    protected static ?string $pluralModelLabel = 'Phân công nhân viên';
+    protected static ?string $modelLabel = 'Phân công nhân viên';
 
     protected static ?string $tenantOwnershipRelationshipName = 'team';
 
@@ -29,20 +30,40 @@ class BookingStaffAssignmentResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('booking_id')
-                    ->label('Booking ID')
-                    ->required()
-                    ->rules(['exists:bookings,id']),
-                TextInput::make('staff_id')
-                    ->label('Staff ID')
-                    ->required()
-                    ->rules(['exists:users,id']),
-                Select::make('task')
-                    ->label('Task')
-                    ->options(BookingStaffTaskEnum::cases())
+                Select::make('staff_id')
+                    ->label('Nhân viên')
+                    ->relationship('staff', 'name') // Quan hệ staff() -> User::class
                     ->required(),
-            ])->columns(2)
-            ->statePath('booking_staff_assignment');
+
+                Select::make('booking_id')
+                    ->label('Đặt phòng')
+                    ->options(
+                        \App\Models\Booking::query()
+                            ->where('status', \App\Enums\BookingStatusEnum::Confirmed)
+                            ->get()
+                            ->mapWithKeys(function ($booking) {
+                                return [
+                                    $booking->id => sprintf(
+                                        '%s | %s | %s | %s | %s - %s',
+                                        $booking->customer->name ?? 'N/A',          // Khách hàng
+                                        $booking->room->code ?? 'N/A',              // Phòng
+                                        $booking->branch->name ?? 'N/A',            // Chi nhánh
+                                        $booking->hotel->name ?? 'N/A',             // Khách sạn
+                                        $booking->check_in?->format('d/m/Y'),       // Ngày nhận
+                                        $booking->check_out?->format('d/m/Y'),      // Ngày trả
+                                    )
+                                ];
+                            })
+                    )
+                    ->searchable()
+                    ->required(),
+                Select::make('task')
+                    ->label('Công việc')
+                    ->options(
+                        collect(BookingStaffTaskEnum::cases())->mapWithKeys(fn ($case) => [$case->value => $case->label()])
+                    )
+                    ->required(),
+            ])->columns(2);
     }
 
     public static function table(Table $table): Table
@@ -50,20 +71,20 @@ class BookingStaffAssignmentResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('booking_id')
-                    ->label('Booking ID')
+                    ->label('Mã Booking')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('staff_id')
-                    ->label('Staff ID')
+                TextColumn::make('staff.name') // Lấy tên nhân viên từ quan hệ
+                    ->label('Nhân viên')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('task')
-                    ->label('Task')
-                    ->formatStateUsing(fn ($state) => BookingStaffTaskEnum::from($state)->label())
+                    ->label('Công việc')
+                    ->formatStateUsing(fn ($state) => $state instanceof BookingStaffTaskEnum ? $state->label() : BookingStaffTaskEnum::from($state)->label())
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label('Ngày tạo')
                     ->dateTime()
                     ->sortable(),
             ])

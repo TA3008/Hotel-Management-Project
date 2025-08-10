@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             BookingSeeder::class,
             BookingDetailSeeder::class,
             PaymentSeeder::class,
+            BookingStaffAssignmentSeeder::class,
         ]);
     }
 }
