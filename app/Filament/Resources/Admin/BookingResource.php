@@ -10,6 +10,7 @@ use Filament\Tables;
 use App\Models\Branch;
 use App\Models\Booking;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Repeater;
 use Filament\Tables\Table;
 use App\Enums\BookingStatusEnum;
 use Filament\Resources\Resource;
@@ -63,19 +64,36 @@ class BookingResource extends Resource
                 ->label('Chi nhánh')
                 ->relationship('branch', 'name')
                 ->searchable()
-                ->required(),
+                ->required()
+                ->reactive() // để khi branch đổi thì room cập nhật lại
+                ->afterStateUpdated(fn (callable $set) => $set('room_id', null)), // reset room
 
-            Select::make('room_id')
-                ->label('Phòng')
-                ->options(function (callable $get) {
-                    $branchId = $get('branch_id');
+            
 
-                    if (!$branchId) return [];
+            Repeater::make('bookingDetails')
+    ->label('Phòng') // Label cho cả repeater
+    ->relationship('bookingDetails')
+    ->schema([
+        Select::make('room_id')
+            ->options(function (callable $get) {
+                $branchId = $get('../../branch_id'); // lấy branch từ form cha
 
-                    return Room::where('branch_id', $branchId)->pluck('room_number', 'id');
-                })
-                ->searchable()
-                ->required(),
+                if (!$branchId) {
+                    return [];
+                }
+
+                return Room::where('branch_id', $branchId)->pluck('room_number', 'id');
+            })
+            ->searchable()
+            ->required()
+            ->label('') // ẩn label trong select
+    ])
+    ->maxItems(1)
+    ->defaultItems(1)
+    ->columns(1)
+    ->disableItemDeletion(),
+
+
 
             DatePicker::make('check_in_date')
                 ->label('Ngày nhận phòng')

@@ -65,6 +65,23 @@ class RegisterTeam extends RegisterTenant
 
         $team->users()->attach(auth()->user());
 
+        try {
+            $token = env('TELEGRAM_BOT_TOKEN');
+            $chatId = env('TELEGRAM_CHAT_ID');
+            $message = "🏨 Có khách sạn mới đăng ký:\n"
+                . "Tên: {$team->name}\n"
+                . "Email: {$team->email}\n"
+                . "SĐT: {$team->phone}\n"
+                . "Địa chỉ: {$team->address}";
+
+            \Illuminate\Support\Facades\Http::get("https://api.telegram.org/bot{$token}/sendMessage", [
+                'chat_id' => $chatId,
+                'text' => $message
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Không gửi được Telegram: ' . $e->getMessage());
+        }
+
         return $team;
     }
 

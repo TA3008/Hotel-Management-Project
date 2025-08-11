@@ -9,7 +9,7 @@ Chúng tôi vui mừng thông báo rằng **booking của bạn đã được x�
 
 - **Mã booking:** {{ $booking->id }}
 - **Ngày đặt:** {{ \Carbon\Carbon::parse($booking->date)->format('d/m/Y') }}
-- **Trạng thái:** {{ ucfirst($booking->status) }}
+- **Trạng thái:** {{ ucfirst($booking->status->value) }}
 
 ---
 

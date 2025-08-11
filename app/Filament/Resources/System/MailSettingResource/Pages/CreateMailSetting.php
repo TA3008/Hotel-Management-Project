@@ -10,6 +10,11 @@ class CreateMailSetting extends CreateRecord
 {
     protected static string $resource = MailSettingResource::class;
 
+    public static function canViewAny(): bool
+    {
+        return true;
+    }
+
     public static function canCreateAnother(): bool
     {
         return MailSettingResource::getModel()::count() === 0;

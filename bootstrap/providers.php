@@ -5,5 +5,6 @@ return [
     App\Providers\Filament\AdminPanelProvider::class,
     App\Providers\Filament\SystemPanelProvider::class,
     App\Providers\MailConfigServiceProvider::class,
+    App\Providers\TelegramServiceProvider::class,
     App\Providers\TenancyServiceProvider::class,
 ];
